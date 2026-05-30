@@ -5,9 +5,16 @@ import torch.nn as nn
 import torch.optim as optim
 from model import Emolens
 
+from google.colab import drive
+drive.mount('/content/drive')
+import os
+os.makedirs('/root/.kaggle', exist_ok=True)
+os.system('mv kaggle.json /root/.kaggle/')
+os.system('chmod 600 /root/.kaggle/kaggle.json')
+os.system('kaggle datasets download -d msambare/fer2013 -p /content/ --unzip')
+
 train_Data = '/content/train'
 Test_Data = '/content/test'
-
 train_transform = transforms.Compose([
     transforms.RandomHorizontalFlip(),
     transforms.Resize((224, 224)),
