@@ -4,8 +4,10 @@ import cv2
 from torchvision import datasets, transforms
 import torch.nn.functional as F
 
+model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/best_model.pth'
+
 Emodel = Emolens()
-state_dict = torch.load('../models/best_model.pth', map_location='cpu', weights_only=True)
+state_dict = torch.load(model_path, map_location='cpu', weights_only=True)
 Emodel.load_state_dict(state_dict)
 Emodel.eval()
 
