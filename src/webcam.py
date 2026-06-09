@@ -59,7 +59,11 @@ while True:
             prediction = predicted_classes[0]
             confidence = confidences[0]
 
-            label = f"{emotions[prediction]} ({confidence:.2f})"
+            if confidence >= 0.50:
+                label = f"{emotions[prediction]} ({confidence:.2f})"
+            else:
+                label = "Detecting"
+
             cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
             
     cv2.imshow('Webcam Feed', frame)
