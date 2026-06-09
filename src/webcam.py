@@ -3,6 +3,9 @@ from model import Emolens
 import cv2
 from torchvision import datasets, transforms
 import torch.nn.functional as F
+from collections import deque
+
+prediction_buffer = deque(maxlen=7)
 
 model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/best_model.pth'
 
@@ -25,6 +28,7 @@ transform = transforms.Compose([
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 emotions = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+temprature = 2.0
 
 while True:
     ret, frame = cap.read()
@@ -45,14 +49,19 @@ while True:
 
         with torch.inference_mode():
             predictions = Emodel(transformed_tensor)
-        probabilities = F.softmax(predictions, dim=1)
-        confidences, predicted_classes = torch.max(probabilities, dim=1)
-        prediction = predicted_classes[0]
-        confidence = confidences[0]
+        probabilities = F.softmax(predictions / temprature, dim=1)
 
-        label = f"{emotions[prediction]} ({confidence:.2f})"
-        cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+        prediction_buffer.append(probabilities)
 
+        if len(prediction_buffer) == 7: 
+            avg_probs = torch.mean(torch.stack(list(prediction_buffer), dim=0), dim=0)
+            confidences, predicted_classes = torch.max(avg_probs, dim=1)
+            prediction = predicted_classes[0]
+            confidence = confidences[0]
+
+            label = f"{emotions[prediction]} ({confidence:.2f})"
+            cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            
     cv2.imshow('Webcam Feed', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
