@@ -7,7 +7,7 @@ from collections import deque
 
 prediction_buffer = deque(maxlen=7)
 
-model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/best_model.pth'
+model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/Affectnet_model.pth'
 
 Emodel = Emolens()
 state_dict = torch.load(model_path, map_location='cpu', weights_only=True)
@@ -27,7 +27,7 @@ transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
-emotions = ['anger', 'contempt', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+emotions = ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 temprature = 2.0
 
 while True:
