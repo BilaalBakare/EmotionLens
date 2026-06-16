@@ -7,7 +7,7 @@ from collections import deque
 
 prediction_buffer = deque(maxlen=7)
 
-model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/Affectnet_model.pth'
+model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/affectnet-weighted_loss.pth'
 
 Emodel = Emolens()
 state_dict = torch.load(model_path, map_location='cpu', weights_only=True)
@@ -29,6 +29,7 @@ transform = transforms.Compose([
     ])
 emotions = ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 temprature = 2.0
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 
 while True:
     ret, frame = cap.read()
@@ -38,6 +39,8 @@ while True:
         break
 
     gray_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray_image = clahe.apply(gray_image)
+
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -59,7 +62,7 @@ while True:
             prediction = predicted_classes[0]
             confidence = confidences[0]
 
-            if confidence >= 0.50:
+            if confidence >= 0.35:
                 label = f"{emotions[prediction]} ({confidence:.2f})"
             else:
                 label = "Detecting"
