@@ -62,7 +62,7 @@ while True:
             prediction = predicted_classes[0]
             confidence = confidences[0]
 
-            if confidence >= 0.35:
+            if confidence >= 0.40:
                 label = f"{emotions[prediction]} ({confidence:.2f})"
             else:
                 label = "Detecting"
