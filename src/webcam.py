@@ -7,7 +7,7 @@ from collections import deque
 
 prediction_buffer = deque(maxlen=7)
 
-model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/affectnet-weighted_loss.pth'
+model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/data.pth'
 
 Emodel = Emolens()
 state_dict = torch.load(model_path, map_location='cpu', weights_only=True)
