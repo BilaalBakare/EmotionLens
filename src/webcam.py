@@ -7,7 +7,7 @@ from collections import deque
 
 prediction_buffer = deque(maxlen=7)
 
-model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/data.pth'
+model_path = '/home/bbo/Documents/Code/projects/Emotionlens/models/affectnet-weighted_loss.pth'
 
 Emodel = Emolens()
 state_dict = torch.load(model_path, map_location='cpu', weights_only=True)
@@ -62,7 +62,7 @@ while True:
             prediction = predicted_classes[0]
             confidence = confidences[0]
 
-            if confidence >= 0.40:
+            if confidence >= 0.45:
                 label = f"{emotions[prediction]} ({confidence:.2f})"
             else:
                 label = "Detecting"
