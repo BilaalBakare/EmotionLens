@@ -29,6 +29,7 @@ prediction_buffer = deque(maxlen=7)
 
 def detect_emotion(frame):
     frame = frame.copy()
+    cv2.imwrite("debug_frame.png", frame)
 
     if frame is None:
         return frame
@@ -40,6 +41,9 @@ def detect_emotion(frame):
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     for (x, y, w, h) in faces:
+        if w < 100 or h < 100:
+            continue  # skip detections that are too small to be a real face
+
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         face_crop = frame[y:y + h, x:x + w]
 
@@ -56,6 +60,8 @@ def detect_emotion(frame):
             confidence, predicted_class = torch.max(avg_probs, dim=1)
             confidence = confidence.item()
             prediction = predicted_class.item()
+
+            # print(f"Prediction: {prediction}, Confidence: {confidence}")
 
             label = f"{emotions[prediction]} ({confidence:.2f})" if confidence >= 0.45 else "Detecting"
 
