@@ -28,6 +28,8 @@ prediction_buffer = deque(maxlen=7)
 
 
 def detect_emotion(frame):
+    frame = frame.copy()
+
     if frame is None:
         return frame
 
