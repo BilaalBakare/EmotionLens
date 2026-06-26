@@ -29,7 +29,6 @@ prediction_buffer = deque(maxlen=7)
 
 def detect_emotion(frame):
     frame = frame.copy()
-    cv2.imwrite("debug_frame.png", frame)
 
     if frame is None:
         return frame
@@ -61,7 +60,7 @@ def detect_emotion(frame):
             confidence = confidence.item()
             prediction = predicted_class.item()
 
-            # print(f"Prediction: {prediction}, Confidence: {confidence}")
+            print(f"Prediction: {prediction}, Confidence: {confidence}")
 
             label = f"{emotions[prediction]} ({confidence:.2f})" if confidence >= 0.45 else "Detecting"
 

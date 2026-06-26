@@ -33,7 +33,6 @@ clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 
 while True:
     ret, frame = cap.read()
-    print(f"Local webcam frame shape: {frame.shape}")
 
     if not ret:
         print("Error: Can't receive frame. Exiting...")
