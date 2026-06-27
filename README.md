@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/378735ec-62e9-4d79-bb6a-28cecc822eeb
+
 # EmotionLens
 
 Real-time facial emotion recognition, built from scratch with deep learning.
