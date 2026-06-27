@@ -8,8 +8,6 @@ Real-time facial emotion recognition, built from scratch with deep learning.
 
 EmotionLens detects and classifies 7 human emotions — **angry, disgust, fear, happy, neutral, sad, surprise** — directly from a live webcam feed, using a fine-tuned EfficientNet model and OpenCV for face detection.
 
-[Live Demo](#) · [Demo Video](#) · [LinkedIn](https://www.linkedin.com/in/bilaal-bakare) · [GitHub](https://github.com/BilaalBakare)
-
 ---
 
 ## Why This Project Exists
