@@ -29,10 +29,11 @@ prediction_buffer = deque(maxlen=7)
 cap = cv2.VideoCapture(0)
 
 
-def get_frame():
-    ret, frame = cap.read()
-    if not ret:
-        return None
+def detect_emotion(frame):
+    frame = frame.copy()
+
+    if frame is None:
+        return frame
 
     # frame here is BGR, straight from OpenCV, exactly like webcam.py
     gray_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -62,7 +63,7 @@ def get_frame():
             confidence = confidence.item()
             prediction = predicted_class.item()
 
-            print(f"Prediction: {prediction}, Confidence: {confidence}")
+            # print(f"Prediction: {prediction}, Confidence: {confidence}")
 
             label = f"{emotions[prediction]} ({confidence:.2f})" if confidence >= 0.45 else "Detecting"
             cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
